@@ -124,5 +124,19 @@ namespace EliotJones.CommonSubsequence.Tests.Unit
             result.ShouldContain(expected1);
             result.ShouldContain(expected2);
         }
+
+        [MemberData(nameof(TestData.Data), Type = typeof(TestData))]
+        public void FileDataSearch(string text1, string text2, string expected1, string expected2)
+        {
+            var documentOne = parser.Parse(text1);
+            var documentTwo = parser.Parse(text2);
+
+            var result = subsequenceAnalyser.GetCommonRegions(documentOne, documentTwo);
+
+            result.Count.ShouldBe(2);
+
+            result.ShouldContain(expected1);
+            result.ShouldContain(expected2);
+        }
     }
 }

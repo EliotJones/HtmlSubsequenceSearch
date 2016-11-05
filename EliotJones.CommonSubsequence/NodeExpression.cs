@@ -18,6 +18,8 @@ namespace EliotJones.CommonSubsequence
 
         public IElement Element { get; }
 
+        private readonly string _hash;
+
         private NodeExpression(NodeExpression parent, IElement element, ITextIndexer textIndexer)
         {
             NodeType = textIndexer.GetIndex(element.TagName);
@@ -33,6 +35,7 @@ namespace EliotJones.CommonSubsequence
             }
 
             Children = children;
+            _hash = $"[{NodeType}.{Content}.{string.Join(string.Empty, Children.Select(x => x.ToString()))}]";
         }
 
         public static NodeExpression Generate(IDocument element, ITextIndexer textIndexer)
@@ -62,56 +65,12 @@ namespace EliotJones.CommonSubsequence
                 return false;
             }
 
-            var childrenEqual = ChildrenEqual(this, node);
-
-            return childrenEqual && Content == node.Content && NodeType == node.NodeType;
-        }
-
-        private static bool ChildrenEqual(NodeExpression nodeOne, NodeExpression nodeTwo)
-        {
-            foreach (var child in nodeOne.Children)
-            {
-                if (child.Visited)
-                {
-                    continue;
-                }
-
-                NodeExpression matchingChild = null;
-                for (int i = 0; i < nodeTwo.Children.Count; i++)
-                {
-                    var nodeChild = nodeTwo.Children[i];
-
-                    if (nodeChild.Visited)
-                    {
-                        continue;
-                    }
-
-                    if (nodeChild.Equals(child))
-                    {
-                        matchingChild = nodeChild;
-                        break;
-                    }
-                }
-
-                if (matchingChild == null)
-                {
-                    return false;
-                }
-
-                var childMatches = ChildrenEqual(child, matchingChild);
-
-                if (!childMatches)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return _hash == node._hash;
         }
 
         public override string ToString()
         {
-            return $"[{NodeType}.{Content}.{string.Join(string.Empty, Children.Select(x => x.ToString()))}]";
+            return _hash;
         }
     }
 }
