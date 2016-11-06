@@ -90,7 +90,7 @@ namespace EliotJones.CommonSubsequence
             NodeExpression match = null;
             for (int i = 0; i < allLeaves.Count; i++)
             {
-                if (allLeaves[i].Equals(currentLeafNode))
+                if (allLeaves[i].Equals(currentLeafNode) && !allLeaves[i].Visited)
                 {
                     match = allLeaves[i];
                     break;
@@ -117,6 +117,9 @@ namespace EliotJones.CommonSubsequence
                 match = match.Parent;
                 currentLeafNode = currentLeafNode.Parent;
             }
+
+            match.Visit();
+            currentLeafNode.Visit();
 
             results.Add(new NodeExpressionMatchPair(match, currentLeafNode));
         }
