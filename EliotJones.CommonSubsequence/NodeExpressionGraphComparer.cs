@@ -43,7 +43,7 @@ namespace EliotJones.CommonSubsequence
                 return currentNode;
             }
 
-            currentNode.Visit();
+            currentNode.Visit(false);
 
             if (goingUp)
             {

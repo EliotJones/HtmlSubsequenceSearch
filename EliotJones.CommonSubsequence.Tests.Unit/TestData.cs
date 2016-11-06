@@ -56,10 +56,5 @@ namespace EliotJones.CommonSubsequence.Tests.Unit
 
             return results;
         }
-
-        private static object[] WrapStrings(string s1, string s2)
-        {
-            return new object[] { s1, s2 };
-        }
     }
 }

@@ -43,9 +43,27 @@ namespace EliotJones.CommonSubsequence
             return new NodeExpression(null, element.Body, textIndexer);
         }
 
-        public void Visit()
+        public void Visit(bool includeChildren = true)
         {
             Visited = true;
+
+            if (includeChildren)
+            {
+                VisitChildren();
+            }
+        }
+
+        private void VisitChildren()
+        {
+            foreach (var child in Children)
+            {
+                if (child.Visited)
+                {
+                    continue;
+                }
+
+                child.Visit();
+            }
         }
 
         public bool Equals(NodeExpression node)

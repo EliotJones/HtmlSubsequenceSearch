@@ -135,8 +135,8 @@ namespace EliotJones.CommonSubsequence.Tests.Unit
 
             result.Count.ShouldBe(2);
 
-            result.ShouldContain(expected1);
-            result.ShouldContain(expected2);
+            result.ShouldContain(x => WhiteSpaceEquality.EqualsWhiteSpaceInvariant(x, expected1));
+            result.ShouldContain(x => WhiteSpaceEquality.EqualsWhiteSpaceInvariant(x, expected2));
         }
     }
 }
